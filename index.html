@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<title>Just the Beer Facts</title>
+
+
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">    
+    
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+   
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+</head>
+<body>
+
+
+
+	<header class="header text-vertical-center">
+		<div class="text-vertical-center">
+			<div class="container">
+			<div class="timerSpot" id="countdownTimer"></div>
+			
+				<button class="btn startButton" id="startQuiz" type="submit">Play</button>
+
+				<div class="panel panel-default showQuiz">
+					<div class="panel-heading">
+						<div class="quizQuestionHeader align-center" id="displayQuestion"></div>
+					</div>
+					<div class="panel-body">						
+						<div class="list-group" id="displayAnswers"></div>						
+						<div class="panel-display" id="displayCorrect"></div>
+						<div class="panel-display" id="endGameResults"></div>					
+					</div>
+					<div class="panel-footer align-center">
+						
+					</div>
+				</div>
+			</div>			
+		</div>
+	</header>
+	
+	<script src="assets/javascript/app.js"></script>
+</body>
+</html>

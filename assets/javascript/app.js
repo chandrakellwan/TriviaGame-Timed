@@ -127,10 +127,10 @@ var triviaQuestions = {
 		if (currentAnswer == self.questBank[currentQuestion].correct) {
 			self.numberCorrect++;
 			correctSound.play();
-			$('#displayCorrect').html("You got it! <br />" + correctAnswer + " was correct.").show();			
+			$('#displayCorrect').html("You got it! <br />" + correctAnswer + " is correct.").show();			
 		} else {
 			
-			$('#displayCorrect ').html("Nope! <br /> The correct answer was " + correctAnswer).show();
+			$('#displayCorrect ').html("Nope! <br /> The correct answer is " + correctAnswer).show();
 			wrongSound.play();
 			
 			if (currentAnswer == "unanswered" ) self.numberUnanswered++;

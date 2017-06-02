@@ -1,13 +1,19 @@
 
+//declare variables
+
 var quizInterval;
+var correctSound = new Audio ("assets/sounds/correct.mp3");
+var wrongSound = new Audio ("assets/sounds/wrong.mp3");
 var triviaQuestions = {
-	numQuestions : 5,
+	numberQuestions : 5,
 	questionCounter : 1,
-	countdownTime : 10,
-	numCorrect : 0,
-	numIncorrect : 0,
-	numUnanswered : 0,
-	"questionSet" : {
+	countdownTime : 12,
+	numberCorrect : 0,
+	numberIncorrect : 0,
+	numberUnanswered : 0,
+
+	//create questions and answers
+	"questBank" : {
 			"question1" : {
 				"question" : "What is the study of beer, including the role ingredients play in the brewing process, called?",
 				"answers"  :
@@ -53,7 +59,7 @@ var triviaQuestions = {
 				 "correct" : "answer1"
 			},
 			"question5" : {
-				"question" : "When were first beer cans were produced?",
+				"question" : "When were the first beer cans produced?",
 				 "answers" : 
 				 	{   
 				 		"answer1" : "1806",
@@ -65,6 +71,7 @@ var triviaQuestions = {
 			},
 	},
 	
+	//create question display function
 	displayQuestion : function(currentQuestion) {
 		
 		var self = this;
@@ -72,11 +79,11 @@ var triviaQuestions = {
 		
 		$('#countdownTimer').html(this.countdownTime);
 
-		// Hide correct answer if it is displayed
+		// Hide correct answer
 		$('#displayCorrect').hide();
 		
 		// Variable to refer to the current question
-		var thisQuestion = triviaQuestions.questionSet[currentQuestion];
+		var thisQuestion = triviaQuestions.questBank[currentQuestion];
 		
 		// Variable to hold jquery DOM element so we only query for it once
 		var $displayAnswers = $('#displayAnswers');
@@ -84,11 +91,11 @@ var triviaQuestions = {
 		// Display question
 		$('#displayQuestion').html(thisQuestion.question);
 		
-		// Empty answer list
+		// clear the answer list
 		$displayAnswers.empty();
 		$displayAnswers.show();
 		
-		// Display answers
+		// show answers
 		$.each(thisQuestion.answers, function( key, value) {			
 			// Create jquery object		
 		 	var $answer = ($('<button/>')
@@ -111,28 +118,31 @@ var triviaQuestions = {
 	displayCorrectAnswer : function(currentQuestion, currentAnswer) {		
 		var self = triviaQuestions;
 		
-		
 		$('#displayAnswers').hide();
 		
 		clearInterval(quizInterval);
 		
-		var correctAnswer = self.questionSet[currentQuestion].answers[self.questionSet[currentQuestion].correct];
+		var correctAnswer = self.questBank[currentQuestion].answers[self.questBank[currentQuestion].correct];
 		
-				
-		if (currentAnswer == self.questionSet[currentQuestion].correct) {
-			self.numCorrect++;
+		if (currentAnswer == self.questBank[currentQuestion].correct) {
+			self.numberCorrect++;
+			correctSound.play();
 			$('#displayCorrect').html("You got it! <br />" + correctAnswer + " was correct.").show();			
 		} else {
+			
 			$('#displayCorrect ').html("Nope! <br /> The correct answer was " + correctAnswer).show();
-			// Increment for incorrect or unanswered
-			if (currentAnswer == "unanswered" ) self.numUnanswered++;
-			else self.numIncorrect++;
+			wrongSound.play();
+			
+			if (currentAnswer == "unanswered" ) self.numberUnanswered++;
+
+			else self.numberIncorrect++;
+			wrongSound.play();
 		}
 
 		
-		if (this.questionCounter < this.numQuestions){			
+		if (this.questionCounter < this.numberQuestions){			
 			// Reset coutndownTime
-			this.countdownTime = 10;
+			this.countdownTime = 12;
 			// Increment questionCounter to display the next question
 			this.questionCounter++;
 			
@@ -141,7 +151,7 @@ var triviaQuestions = {
 										}, 3000);			
 		} else {
 			var gameResult = setTimeout(function() { 
-											self.endGame();
+											self.gameOver();
 										}, 3000);	
 		}
 	},
@@ -165,7 +175,7 @@ var triviaQuestions = {
 		}
 	},	
 	
-	endGame : function() {
+	gameOver : function() {
 		var self = triviaQuestions;
 		// Hide the answers and display correct
 		$('#displayAnswers').hide();
@@ -173,39 +183,47 @@ var triviaQuestions = {
 
 		$('#displayQuestion').html("<h1>Just the Beer Results</h1>");				
 
-		// Play again button
+		
 		var $playAgain = ($('<button/>')
 			 		.attr("type", "button")
 			 		.html("Play Again")
 			 		.addClass("btn startButton")
 			 		// On click function for the button
 			 		.on('click', function() {
+
 			 				// Reset variables
 			 				self.resetQuiz();
 							// Call startQuiz
 			 				self.startQuiz();
+			 				correctSound.play();
 			 			})
 		 			);
-		$('#endGameResults').html("You got " + this.numCorrect + " question(s) right")
-							.append("<br/> and " + this.numIncorrect + "  question(s) wrong.")
-							.append("<br/> Number unanswered: " + this.numUnanswered)
+		$('#gameOverResults').html("You got " + this.numberCorrect + " question(s) right")
+							.append("<br/> and " + this.numberIncorrect + "  question(s) wrong.")
+							.append("<br/> You didn't answer " + this.numberUnanswered + " questions.")
 							.append("<br/>")
 							.append($playAgain)
 							.show();
+ //reset the game function
+
 	},
 	
 	resetQuiz : function() {
 		this.questionCounter = 1;
-		this.countdownTime = 10;
-		this.numCorrect = 0;
-		this.numIncorrect = 0;
-		this.numUnanswered = 0;
+		this.countdownTime = 12;
+		this.numberCorrect = 0;
+		this.numberIncorrect = 0;
+		this.numberUnanswered = 0;
 	},
 	
-	startQuiz : function() {		
-		// When you click the 'Start Quiz' button, it is hidden and the quiz quesitons div is displayed
+//start the game function
+
+	startQuiz : function() {
+
+		// When you click the 'Play' button, it disappears and the quesitons appear
 		$('#startQuiz').hide();
-		$('#endGameResults').hide();
+		$('#gameOverResults').hide();
+		correctSound.play();
 
 		$('.showCorrectAnswer').hide();
 		$('.showQuiz').show();

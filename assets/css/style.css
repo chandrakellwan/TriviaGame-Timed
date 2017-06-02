@@ -6,8 +6,9 @@ body {
 .showQuiz {	
 	display: none;
 }
-#endGameResults {
+#gameOverResults {
 	display: none;
+	background-color: dodgerblue;
 }
 #countdownTimer {
 	font-size: 60px;
@@ -22,7 +23,7 @@ body {
 
 
 .quizQuestionHeader {
-	background-color: blue;
+	background-color: dodgerblue;
 	padding: 10px;
 	font-size: 28px;
 	color: white;
@@ -47,7 +48,7 @@ body {
 	align-items: center;
 	justify-content: center;
 }
-/* Header */
+
 .header {
     display: table;
     position: relative;
@@ -75,12 +76,15 @@ body {
 
 }
 button.list-group-item {
+	color: white;
 	text-align: left;
 	font-style: arial;
 	font-weight: bold;
 	font-size: 20px;
+	background-color: dodgerblue;
 }
 .panel-display {
 	height: 185px;
 	font-size: 24px;
+
 }

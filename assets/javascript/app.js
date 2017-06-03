@@ -74,7 +74,7 @@ var triviaQuestions = {
 	//create question display function
 	displayQuestion : function(currentQuestion) {
 		
-		var self = this;
+		var my = this;
 
 		
 		$('#countdownTimer').html(this.countdownTime);
@@ -105,7 +105,7 @@ var triviaQuestions = {
 			 		.attr("data-name", key)
 			 		// On click function for the button
 			 		.on('click', function() {			 			
-			 				self.displayCorrectAnswer(currentQuestion, $(this).data('name'));
+			 				my.displayCorrectAnswer(currentQuestion, $(this).data('name'));
 			 			})
 		 			);
 		 	// Append it to the element
@@ -116,16 +116,16 @@ var triviaQuestions = {
 	},
 	
 	displayCorrectAnswer : function(currentQuestion, currentAnswer) {		
-		var self = triviaQuestions;
+		var my = triviaQuestions;
 		
 		$('#displayAnswers').hide();
 		
 		clearInterval(quizInterval);
 		
-		var correctAnswer = self.questBank[currentQuestion].answers[self.questBank[currentQuestion].correct];
+		var correctAnswer = my.questBank[currentQuestion].answers[my.questBank[currentQuestion].correct];
 		
-		if (currentAnswer == self.questBank[currentQuestion].correct) {
-			self.numberCorrect++;
+		if (currentAnswer == my.questBank[currentQuestion].correct) {
+			my.numberCorrect++;
 			correctSound.play();
 			$('#displayCorrect').html("You got it! <br />" + correctAnswer + " is correct.").show();			
 		} else {
@@ -133,9 +133,9 @@ var triviaQuestions = {
 			$('#displayCorrect ').html("Nope! <br /> The correct answer is " + correctAnswer).show();
 			wrongSound.play();
 			
-			if (currentAnswer == "unanswered" ) self.numberUnanswered++;
+			if (currentAnswer == "unanswered" ) my.numberUnanswered++;
 
-			else self.numberIncorrect++;
+			else my.numberIncorrect++;
 			wrongSound.play();
 		}
 
@@ -147,36 +147,36 @@ var triviaQuestions = {
 			this.questionCounter++;
 			
 			var nextQuestion = setTimeout(function() { 
-											self.displayQuestion("question" + self.questionCounter);
+											my.displayQuestion("question" + my.questionCounter);
 										}, 3000);			
 		} else {
 			var gameResult = setTimeout(function() { 
-											self.gameOver();
+											my.gameOver();
 										}, 3000);	
 		}
 	},
 	
 	questionTimer : function() {
-		// Create a variable 'self' to refer to the object
-		var self = triviaQuestions;
+		// Create a variable 'my' to refer to the object
+		var my = triviaQuestions;
 		
 		// Decrement the countdownTime counter
-		self.countdownTime--;
+		my.countdownTime--;
 		// Update the countdown timer display
-		$('#countdownTimer').html(self.countdownTime);		
+		$('#countdownTimer').html(my.countdownTime);		
 				
 		// Check if the time has reached 0 if so, display correct answer
-		if (self.countdownTime == 0) {
+		if (my.countdownTime == 0) {
 			//clearInterval(quizInterval);
-			var currentQuestion = "question" + self.questionCounter;					
+			var currentQuestion = "question" + my.questionCounter;					
 			var currentAnswer = "unanswered";
 			
-			self.displayCorrectAnswer(currentQuestion, currentAnswer);
+			my.displayCorrectAnswer(currentQuestion, currentAnswer);
 		}
 	},	
 	
 	gameOver : function() {
-		var self = triviaQuestions;
+		var my = triviaQuestions;
 		// Hide the answers and display correct
 		$('#displayAnswers').hide();
 		$('#displayCorrect').hide();
@@ -192,9 +192,9 @@ var triviaQuestions = {
 			 		.on('click', function() {
 
 			 				// Reset variables
-			 				self.resetQuiz();
+			 				my.resetQuiz();
 							// Call startQuiz
-			 				self.startQuiz();
+			 				my.startQuiz();
 			 				correctSound.play();
 			 			})
 		 			);
